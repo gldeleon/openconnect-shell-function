@@ -1,0 +1,20 @@
+#
+# ZSH functions to start/stop OpenConnect VPN client
+# 
+# In my setup the VPN username is the same as $USER
+#
+export VPN_HOST=<your VPN host>
+
+function vpn-up() {
+  if [[ -z $VPN_HOST ]]
+  then
+    echo "Please set VPN_HOST env var"
+    return
+  fi
+  echo "Starting the vpn ..."
+  sudo openconnect --background --user=$USER  $VPN_HOST
+}
+
+function vpn-down() {
+  sudo kill -2 `pgrep openconnect`
+}
